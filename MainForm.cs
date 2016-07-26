@@ -110,7 +110,7 @@ namespace SheepItRunner
 		
 		private string login;
 		private string password;
-		private bool hide = true;
+		private bool hide = false;
 		private BloodyRain2k.AppSettings settings = new BloodyRain2k.AppSettings();
 		private string logFile;
 		
@@ -299,8 +299,8 @@ namespace SheepItRunner
 		{
 			for (var i = 0; i < args.Length; i++) {
 				switch (args[i].ToLower()) {
-					case "-nohide":
-						hide = false; break;
+					case "-hide":
+						hide = true; break;
 					case "-login":
 						if (i + 1 >= args.Length) { break; }
 						login = args[i + 1]; break;
@@ -317,9 +317,13 @@ namespace SheepItRunner
 			Icon = trayIcon.Icon = Resources.ShpIt;
 			setFrames("Frames: 0  -  Earned: 0");
 			
+			login = (string.IsNullOrEmpty(login) ? settings.String["login"] : login);
+			if (string.IsNullOrEmpty(login)) { log("no login"); }
+			
+			password = (string.IsNullOrEmpty(password) ? settings.String["password"] : password);
+			if (string.IsNullOrEmpty(password)) { log("no password"); }
+			
 			log("started");
-			if (login == "") { log("no login"); }
-			if (password == "") { log("no password"); }
 			tmrCheck.Start();
 		}
 
@@ -360,6 +364,8 @@ namespace SheepItRunner
 			StopClient();
 			if (txtCache.Text != "") { settings.Add("cache", txtCache.Text); }
 			settings.Add("mode", cmbMode.SelectedIndex);
+			if (!string.IsNullOrEmpty(settings.String["login"])) { settings.Add("login", login); } // only save if they were already in the settings at startup
+			if (!string.IsNullOrEmpty(settings.String["password"])) { settings.Add("password", password); }
 			settings.Save();
 		}
 		

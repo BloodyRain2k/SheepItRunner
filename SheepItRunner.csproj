@@ -66,9 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\VC# 2008\clsAppSettings.cs">
-      <Link>clsAppSettings.cs</Link>
-    </Compile>
+    <Compile Include="clsAppSettings.cs" />
     <Compile Include="MainForm.cs" />
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -93,9 +91,5 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy /Y $(TargetFileName) D:\Programs\
-</PostBuildEvent>
-  </PropertyGroup>
   <Import Project="packages\Fody.1.28.3\build\Fody.targets" Condition="Exists('packages\Fody.1.28.3\build\Fody.targets')" />
 </Project>
